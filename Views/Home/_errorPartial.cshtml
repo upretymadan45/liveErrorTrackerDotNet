@@ -1,0 +1,38 @@
+@if(Model.Count==0){
+    <p>No error(s) found!</p>
+}else{
+<div class="container">
+    <table class="table table-condensed table-bordered">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Error Message</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach(var e in Model){
+                <tr>
+                    <td>@e.Id</td>
+                    <td>@e.ErrorMessage</td>
+                    @if(e.IsResolved){
+                        <td>
+                            Resolved By: <span class="badge badge-primary m-2">@e.ResolvedBy</span>
+                            Resolved On: <span class="badge badge-primary m-2">@e.ResolvedOn.ToShortDateString()</span>
+                        </td>
+                    }else{
+                    <td>
+                        <a asp-action="Resolve" 
+                            asp-controller="Home" 
+                            asp-route-id="@e.Id"
+                            class='@(e.IsResolved? "btn btn-primary disabled": "btn btn-danger")'>
+                            @(e.IsResolved?"Resolved":"Resolve")
+                        </a>
+                    </td>
+                    }
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+}
